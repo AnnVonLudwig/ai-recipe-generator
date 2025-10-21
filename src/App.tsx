@@ -9,7 +9,7 @@ import outputs from "../amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 Amplify.configure(outputs);
 const amplifyClient = generateClient<Schema>({
- authMode: "userPool",
+  authMode: "apiKey", // 改为 apiKey
 });
 function App() {
  const [result, setResult] = useState<string>("");
@@ -19,16 +19,26 @@ function App() {
  setLoading(true);
  try {
  const formData = new FormData(event.currentTarget);
- const { data, errors } = await
-amplifyClient.queries.askBedrock({
- ingredients: [formData.get("ingredients")?.toString() || ""],
+ const ingredients = formData.get("ingredients")?.toString() || "";
+ console.log("Submitting ingredients:", ingredients);
+ const { data, errors } = await amplifyClient.queries.askBedrock({
+ ingredients: [ingredients],
  });
+ console.log("GraphQL response - data:", data);
+ console.log("GraphQL response - errors:", errors);
  if (!errors) {
  setResult(data?.body || "No data returned");
  } else {
- console.log(errors);
+ // 显示完整的错误信息
+ console.log("Full error details:", JSON.stringify(errors, null, 2));
+ // 提取具体的错误消息
+ const errorMessages = errors.map(error => {
+ return `Error: ${error.message || 'Unknown error'}`;
+ }).join('\n');
+ alert(`GraphQL Error:\n${errorMessages}`);
  }
  } catch (e) {
+ console.error("Caught error:", e);
  alert(`An error occurred: ${e}`);
  } finally {
  setLoading(false);
