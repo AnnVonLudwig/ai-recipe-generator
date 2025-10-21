@@ -9,7 +9,7 @@ import outputs from "../amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 Amplify.configure(outputs);
 const amplifyClient = generateClient<Schema>({
-  authMode: "apiKey", // 改为 apiKey
+  authMode: "userPool", // 改回 userPool
 });
 function App() {
  const [result, setResult] = useState<string>("");

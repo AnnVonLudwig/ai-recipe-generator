@@ -9,7 +9,7 @@ const schema = a.schema({
     .query()
     .arguments({ ingredients: a.string().array() })
     .returns(a.ref("BedrockResponse"))
-    .authorization((allow) => [allow.guest()]) // 改为 guest
+    .authorization((allow) => [allow.authenticated()])
     .handler(
       a.handler.custom({
         entry: "./bedrock.js",
@@ -23,7 +23,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
+    defaultAuthorizationMode: "userPool", // 改为 userPool
     apiKeyAuthorizationMode: {
       expiresInDays: 30,
     },
