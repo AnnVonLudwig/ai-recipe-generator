@@ -1,0 +1,8 @@
+{
+    "name": "aiFunction",
+    "type": "ai",
+    "provider": "bedrock",
+    "runtime": "nodejs20.x",
+    "modelId": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "region": "us-west-2"
+  }
