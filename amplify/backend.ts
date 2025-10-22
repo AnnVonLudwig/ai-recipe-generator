@@ -10,21 +10,21 @@ const backend = defineBackend({
 
 const bedrockDataSource = backend.data.resources.graphqlApi.addHttpDataSource(
   "bedrockDS",
-  "https://bedrock-runtime.us-west-2.amazonaws.com",
+  "https://bedrock-runtime.us-east-1.amazonaws.com",
   {
     authorizationConfig: {
-      signingRegion: "us-west-2",
+      signingRegion: "us-east-1",
       signingServiceName: "bedrock",
     },
   }
 );
 
-// 添加 Bedrock 权限
 bedrockDataSource.grantPrincipal.addToPrincipalPolicy(
   new PolicyStatement({
     resources: [
-      "arn:aws:bedrock:us-west-2::foundation-model/amazon.titan-text-express-v1",
+      "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0",
     ],
     actions: ["bedrock:InvokeModel"],
+    
   })
 );
