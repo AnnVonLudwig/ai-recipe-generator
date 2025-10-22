@@ -34,10 +34,16 @@ export function request(ctx) {
 export function response(ctx) {
   // Parse the response body
   const parsedBody = JSON.parse(ctx.result.body);
-  // Extract the text content from the response
-  const res = {
-    body: parsedBody.content[0].text,
-  };
-  // Return the response
-  return res;
+  
+  // Check if content exists and has items
+  if (parsedBody.content && parsedBody.content.length > 0) {
+    return {
+      body: parsedBody.content[0].text,
+    };
+  } else {
+    return {
+      body: "No response content available",
+      error: "Invalid response structure from Bedrock"
+    };
+  }
 }
